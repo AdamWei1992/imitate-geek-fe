@@ -6,17 +6,17 @@ const { isDevelopment, isProduction } = require('../scripts/config/env')
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-
 const getCssLoaders = () => {
   const cssLoaders = [
     isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
     {
       loader: 'css-loader',
       options: {
-        modules: {
-          localIdentName: '[local]-[hash:base64:5]'
-        },
-        sourceMap: isDevelopment
+        // modules: {
+        //   localIdentName: '[local]--[hash:base64:5]'
+        // },
+        modules: false,
+        sourceMap: isDevelopment,
       }
     }
   ]
@@ -57,18 +57,29 @@ module.exports = {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.css$/,
+      //   exclude: [/node_modules/],
+      //   use: [...getCssLoaders()]
+      // },
+      // {
+      //   test: /\.(css|less)$/,
+      //   exclude: [/src/],
+      //   use: ['style-loader', 'css-loader'],
+      // },
       {
-        test: /\.css$/,
-        use: [...getCssLoaders()]
-      },
-      {
-        test: /\.less$/,
+        test: /\.(css|less)$/,
+        // exclude: [/node_modules/],
+        // include: [/src/],
         use: [
           ...getCssLoaders(),
           {
             loader: 'less-loader',
             options: {
-              sourceMap: isDevelopment
+              sourceMap: isDevelopment,
+              lessOptions: {
+                javascriptEnabled: true
+              }
             }
           }
         ]
@@ -80,7 +91,7 @@ module.exports = {
         exclude: path.resolve(__dirname, './node_modules')
       },
       {
-        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.webp$/],
         // 资源模块类型
         // `asset/resource：将资源分割为单独的文件，并导出url，就是之前的 file-loader的功能
         // asset/inline：将资源导出为dataURL（url(data:)）的形式，之前的 url-loader的功能
@@ -108,17 +119,19 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../public/index.html')
+      template: path.resolve(__dirname, '../public/index.html'),
+      publicPath: './',
+      favicon: path.resolve(__dirname, '../public/favicon.ico')
     }),
     new WebpackBar({
       name: 'link startou!!!',
       color: '#52c41a'
     }),
-    // new ForkTsCheckerPlugin({
-    //   typescript: {
-    //     configFile: path.resolve(__dirname, '../tsconfig.json'),
-    //   }
-    // }),
+    new ForkTsCheckerPlugin({
+      typescript: {
+        configFile: path.resolve(__dirname, '../tsconfig.json'),
+      }
+    }),
     new CleanWebpackPlugin(),
   ]
 }

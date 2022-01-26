@@ -9,8 +9,8 @@ module.exports = webpackMerge.merge(baseConfig, {
   devtool: 'cheap-module-source-map',
   output: {
     filename: 'js/[name].js',
-    path: path.resolve(__dirname, '../dist'),
-    publicPath: '/'
+    // path: path.resolve(__dirname, '../dist'),
+    // publicPath: '/dist'
   },
   stats: 'errors-only',
   devServer: {
@@ -20,11 +20,9 @@ module.exports = webpackMerge.merge(baseConfig, {
       logging: 'none'
     },
     compress: true,
-    open: true,
+    // open: true,
     hot: true,
-    historyApiFallback: {
-      index: path.resolve(__dirname, '../public/index.html')
-    }
+    historyApiFallback: true
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin()

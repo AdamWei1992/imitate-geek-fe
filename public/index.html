@@ -8,5 +8,22 @@
 </head>
 <body>
   <div id="root"></div>
+  <script>
+    function setHtmlFontSize() {
+      let clientWidth = document.documentElement.clientWidth;
+
+      if (!clientWidth) return;
+      let fontSize = 100;
+      if (clientWidth < 750) {
+        fontSize = clientWidth / 1920 * 100;
+      }
+
+      document.documentElement.style.fontSize = `${fontSize}px`;
+    }
+    window.addEventListener('resize', function () {
+      setHtmlFontSize();
+    }, false);
+    window.addEventListener('pageshow', setHtmlFontSize)
+  </script>
 </body>
 </html>

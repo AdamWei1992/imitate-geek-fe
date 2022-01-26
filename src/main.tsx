@@ -1,5 +1,9 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import App from '@/home/index'
+// import { BrowserRouter } from 'react-router-dom'
+// import App from '@/views/home/index'
+import ViewRoutes from '@/routes'
 
-ReactDom.render(<App />, document.getElementById('root'))
+import '@/assets/css/index.less'
+
+ReactDom.render(<ViewRoutes />, document.getElementById('root'))
