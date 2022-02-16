@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const webpackMerge = require('webpack-merge');
 const baseConfig = require('./webpack.config.base')
-
+const EslintWebpackPlugin = require('eslint-webpack-plugin')
 
 module.exports = webpackMerge.merge(baseConfig, {
   mode: 'development',
@@ -22,9 +22,20 @@ module.exports = webpackMerge.merge(baseConfig, {
     compress: true,
     // open: true,
     hot: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:4000',
+        changeOrigin: true
+      }
+    }
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin()
+    new EslintWebpackPlugin({
+      fix: true,
+      extensions: ['ts', 'js', 'json'],
+      exclude: ['node_modules']
+    })
   ]
 })

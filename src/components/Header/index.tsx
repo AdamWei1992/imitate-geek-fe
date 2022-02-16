@@ -24,7 +24,7 @@ const Drops: React.FC<{ list: MenuItemObj[] }> = ({ list }) => {
 	)
 }
 
-export default () => {
+const Header: React.FC = () => {
 	const tabs = [
 		{ id: 'tab0', name: '首页' },
 		{
@@ -106,3 +106,5 @@ export default () => {
 		</div>
 	)
 }
+
+export default Header

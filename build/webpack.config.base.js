@@ -85,7 +85,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(tsx|js)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         loader: 'babel-loader',
         options: { cacheDirectory: true },
         exclude: path.resolve(__dirname, './node_modules')
