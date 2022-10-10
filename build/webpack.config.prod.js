@@ -31,10 +31,22 @@ module.exports = merge(baseConfig, {
         }
       })
     ],
+    runtimeChunk: { name: "runtime" },
     splitChunks: {
       chunks: 'all',
-      minSize: 0,
-    },
+      minSize: 30000,
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          test:/[\\/]node_modules[\\/]/,
+          //最小大小设置成0，把所有的依赖都给提取出来变成独立的bundle
+          minSize: 0,
+          minChunks: 1,//模块至少使用次数,当值为2时，代表只引用了一次的模块不做分割打包处理
+          priority: 1,//值越大优先级越高
+          chunks: 'initial'
+        }
+      }
+    }
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -66,12 +78,12 @@ module.exports = merge(baseConfig, {
       ]
     }),
     new CompressionPlugin({
-      filename: '[path].gz[query]',
+      filename: '[path][base].gz',
       algorithm: 'gzip',
       test: productionGzipExtensions,
       threshold: 10240,
       minRatio: 0.8,
-      deleteOriginalAssets: true
+      deleteOriginalAssets: false
     })
   ]
 })

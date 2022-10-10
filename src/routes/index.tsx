@@ -11,7 +11,9 @@ const { Header, Content } = Layout
 
 const App: React.FC = () => {
 	return (
-		<BrowserRouter>
+		<BrowserRouter
+			basename={window.__POWERED_BY_QIANKUN__ ? '/app-react' : '/'}
+		>
 			<Layout className="layout-wrapper">
 				<Header className="wrapper-header">
 					<CusHeader />

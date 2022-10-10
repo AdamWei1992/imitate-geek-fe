@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const webpackMerge = require('webpack-merge');
 const baseConfig = require('./webpack.config.base')
 const EslintWebpackPlugin = require('eslint-webpack-plugin')
+const { name } = require('../package');
 
 module.exports = webpackMerge.merge(baseConfig, {
   mode: 'development',
@@ -11,11 +12,15 @@ module.exports = webpackMerge.merge(baseConfig, {
     filename: 'js/[name].js',
     // path: path.resolve(__dirname, '../dist'),
     // publicPath: '/dist'
+    library: `${name}-[name]`,
+    libraryTarget: 'umd',
+    uniqueName: `webpackJsonp_${name}`,
+    globalObject: 'window'
   },
   stats: 'errors-only',
   devServer: {
     host: '0.0.0.0',
-    port: '3000',
+    port: '4000',
     client: {
       logging: 'none'
     },
@@ -25,10 +30,17 @@ module.exports = webpackMerge.merge(baseConfig, {
     historyApiFallback: true,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:4000',
+        target: 'http://127.0.0.1:9000',
         changeOrigin: true
       }
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
     }
+  },
+  watchOptions: {
+    ignored: /node_modules/,
+    poll: 1000
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin()
